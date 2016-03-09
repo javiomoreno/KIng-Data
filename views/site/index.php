@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 /* @var $this yii\web\View */
 
-$this->title = 'Pueblo Soberano';
+$this->title = 'King Data';
 ?>
 <div class="container">
     <div class="row">

@@ -18,8 +18,8 @@ class UsuariosSearch extends Usuarios
     public function rules()
     {
         return [
-            [['idUsuario', 'TiposUsuarios_idTipoUsuario', 'sexo', 'estado'], 'integer'],
-            [['nombre', 'username', 'password'], 'safe'],
+            [['UsuarioID', 'RolID'], 'integer'],
+            [['UsuarioNombre', 'UsuarioApellido', 'UsuarioEmail', 'UsuarioAlias', 'UsuarioTelefono', 'UsuarioClave', 'UsuarioDireccion', 'Usuariocol'], 'safe'],
         ];
     }
 
@@ -56,15 +56,18 @@ class UsuariosSearch extends Usuarios
         }
 
         $query->andFilterWhere([
-            'idUsuario' => $this->idUsuario,
-            'TiposUsuarios_idTipoUsuario' => $this->TiposUsuarios_idTipoUsuario,
+            'UsuarioID' => $this->UsuarioID,
+            'RolID' => $this->RolID,
         ]);
 
-        $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'estado', $this->estado])
-            ->andFilterWhere(['like', 'sexo', $this->sexo])
-            ->andFilterWhere(['like', 'password', $this->password]);
+        $query->andFilterWhere(['like', 'UsuarioNombre', $this->UsuarioNombre])
+            ->andFilterWhere(['like', 'UsuarioApellido', $this->UsuarioApellido])
+            ->andFilterWhere(['like', 'UsuarioEmail', $this->UsuarioEmail])
+            ->andFilterWhere(['like', 'UsuarioAlias', $this->UsuarioAlias])
+            ->andFilterWhere(['like', 'UsuarioTelefono', $this->UsuarioTelefono])
+            ->andFilterWhere(['like', 'UsuarioClave', $this->UsuarioClave])
+            ->andFilterWhere(['like', 'UsuarioDireccion', $this->UsuarioDireccion])
+            ->andFilterWhere(['like', 'Usuariocol', $this->Usuariocol]);
 
         return $dataProvider;
     }

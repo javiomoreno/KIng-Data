@@ -27,7 +27,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'Aplicacion Yoimar',
+        'brandLabel' => 'King Data',
         'brandUrl' => ['/administrador/index'],
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -42,7 +42,7 @@ AppAsset::register($this);
     ];
     if (!Yii::$app->user->isGuest) {
         $menuItems[] = [
-            'label' => 'Salir (' . Yii::$app->user->identity->username . ')',
+            'label' => 'Salir (' . Yii::$app->user->identity->UsuarioEmail . ')',
             'url' => ['/site/logout'],
             'linkOptions' => ['data-method' => 'post']
         ];

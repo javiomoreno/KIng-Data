@@ -24,8 +24,7 @@ class LoginForm extends Model
         return [
             // username and password are both required
             [['username'], 'required', 'message' => 'Usuario no puede ser Vacio'],
-            // password is validated by validatePassword()
-            [['password'], 'default', 'value' => 1],
+            [['password'], 'required', 'message' => 'Contraseña no puede ser Vacio'],
             ['password', 'validatePassword'],
         ];
     }
@@ -41,17 +40,8 @@ class LoginForm extends Model
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
-            if(!trim(empty($user->password))){
-                if ($this->password == 1) {
-                    $this->password = '';
-                    $this->addError($attribute, '');
-                    \Yii::$app->session->setFlash('error', 'Usuario o Contraseña Incorrectos.');
-                }
-                elseif (!$user || !$user->validatePassword($this->password)) {
-                    $this->password = '';
-                    $this->addError($attribute, '');
-                    \Yii::$app->session->setFlash('error', 'Usuario o Contraseña Incorrectos.');
-                }
+            if(!$user || !$user->validateClave($this->password)) {
+                \Yii::$app->session->setFlash('error', 'Usuario o Contraseña Incorrectos.');
             }
         }
     }
@@ -66,8 +56,6 @@ class LoginForm extends Model
             if ($this->getUser()){
                 return Yii::$app->user->login($this->getUser());
             }
-            $this->password = '';
-            \Yii::$app->session->setFlash('error', 'Usuario No Existe.');
         }
         return false;
     }
@@ -80,7 +68,7 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = Usuarios::findByUsername($this->username);
+            $this->_user = Usuarios::findByEmail($this->username);
         }
 
         return $this->_user;

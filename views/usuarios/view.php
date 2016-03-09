@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Usuarios */
 
-$this->title = $model->idUsuario;
+$this->title = $model->UsuarioID;
 $this->params['breadcrumbs'][] = ['label' => 'Usuarios', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->idUsuario], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->idUsuario], [
+        <?= Html::a('Update', ['update', 'id' => $model->UsuarioID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->UsuarioID], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -28,11 +28,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'idUsuario',
-            'nombre',
-            'username',
-            'password',
-            'TiposUsuarios_idTipoUsuario',
+            'UsuarioID',
+            'UsuarioNombre',
+            'UsuarioApellido',
+            'UsuarioEmail:email',
+            'UsuarioAlias',
+            'UsuarioTelefono',
+            'UsuarioClave',
+            'UsuarioDireccion',
+            'Usuariocol',
+            'RolID',
         ],
     ]) ?>
 

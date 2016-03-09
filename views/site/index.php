@@ -1,53 +1,55 @@
 <?php
 
+use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'Pueblo Soberano';
 ?>
-<div class="site-index">
-
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+<div class="container">
+    <div class="row">
+        <div class="card card-container">
+            <div class='info' style='text-align:center;'>
+                <?php
+                    $flashMessages = Yii::$app->session->getFlash('error');
+                    if($flashMessages)
+                    {
+                        echo '<div id="alert-message" class="alert alert-danger" role="alert">' . $flashMessages. "</div>";
+                    }
+                ?>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+            <?php $form = ActiveForm::begin([
+                'id' => 'login-form',
+                'options' => ['class' => 'form-horizontal'],
+                'fieldConfig' => [
+                    'template' => "<div class=\"col-lg-12\">{input}</div>\n<div class=\"col-lg-12\">{error}</div>",
+                    'labelOptions' => ['class' => 'col-lg-1 control-label'],
+                ],
+            ]); ?>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+            <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+            <p id="profile-name" class="profile-name-card"></p>
+            <span id="reauth-email" class="reauth-email"></span>
+            <?= $form->field($model, 'username', [
+                    'inputOptions' =>
+                        [
+                            'type' => 'text' ,
+                            'class' => 'form-control',
+                            'placeholder' => 'Usuario',
+                        ],])->label(false) ?>
+            <?= $form->field($model, 'password', [
+                    'inputOptions' =>
+                        [
+                            'type' => 'password' ,
+                            'class' => 'form-control',
+                            'placeholder' => 'Contraseña',
+                        ],])->label(false)->passwordInput() ?>
+            <div class="form-group">
+                <div class="col-lg-12">
+                    <?= Html::submitButton('Iniciar Sesión', ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
+                </div>
             </div>
         </div>
-
     </div>
+    <?php ActiveForm::end(); ?>
 </div>

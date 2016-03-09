@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Usuarios;
 
 class SiteController extends Controller
 {
@@ -49,22 +50,29 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
-    }
-
-    public function actionLogin()
-    {
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            if(\Yii::$app->user->can('admin')){
+                return Yii::$app->getResponse()->redirect(array('/administrador/index'));
+            }
+            else if(\Yii::$app->user->can('aprobador')){
+                return Yii::$app->getResponse()->redirect(array('/aprobador/index'));
+            }
+            else if(\Yii::$app->user->can('trabajador')){
+                if(Usuarios::findOne(\Yii::$app->user->getId())->estado == 1){
+                    return Yii::$app->getResponse()->redirect(array('/usuarios/registrar'));
+                }
+                return Yii::$app->getResponse()->redirect(array('/trabajador/index'));
+            }
+        } else {
+            return $this->render('index', [
+                'model' => $model,
+            ]);
         }
-        return $this->render('login', [
-            'model' => $model,
-        ]);
     }
 
     public function actionLogout()
@@ -72,23 +80,5 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
-    }
-
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionAbout()
-    {
-        return $this->render('about');
     }
 }

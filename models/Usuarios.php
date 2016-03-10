@@ -114,9 +114,9 @@ class Usuarios extends ActiveRecord implements IdentityInterface
      * @param string $password password to validate
      * @return boolean if password provided is valid for current user
      */
-    public function validateClave($password)
+    public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->UsuarioClave);
+        return Yii::$app->getSecurity()->validatePassword($password, $this->UsuarioClave);
     }
 
         /**

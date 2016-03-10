@@ -40,9 +40,11 @@ class LoginForm extends Model
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
-            if(!$user || !$user->validateClave($this->password)) {
-                \Yii::$app->session->setFlash('error', 'Usuario o Contraseña Incorrectos.');
+            if (!$user || !$user->validatePassword($this->password)) {
+              \Yii::$app->session->setFlash('error', 'Usuario o Contraseña Incorrectos.');
+              $this->addError($attribute, '');
             }
+
         }
     }
 

@@ -32,6 +32,7 @@ class RutasController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout ="adminLayout";
         $searchModel = new RutasSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -60,6 +61,7 @@ class RutasController extends Controller
      */
     public function actionCreate()
     {
+        $this->layout ="adminLayout";
         $model = new Rutas();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -79,6 +81,7 @@ class RutasController extends Controller
      */
     public function actionUpdate($id)
     {
+        $this->layout ="adminLayout";
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

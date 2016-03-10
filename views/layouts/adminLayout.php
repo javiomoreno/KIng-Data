@@ -39,6 +39,14 @@ AppAsset::register($this);
                             'items' => array(
                             array('label' => 'Crear Usuarios', 'url' => array('/usuarios/create')),
                             array('label' => 'Ver Usuarios', 'url' => array('/usuarios/index')))),
+         array('label'=>'Clientes', 'url'=>array('#'),
+                            'items' => array(
+                            array('label' => 'Crear Cliente', 'url' => array('/clientes/create')),
+                            array('label' => 'Ver Clientes', 'url' => array('/clientes/index')))),
+         array('label'=>'Rutas', 'url'=>array('#'),
+                            'items' => array(
+                            array('label' => 'Crear Ruta', 'url' => array('/rutas/create')),
+                            array('label' => 'Ver Rutas', 'url' => array('/rutas/index')))),
     ];
     if (!Yii::$app->user->isGuest) {
         $menuItems[] = [

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 10-03-2016 a las 00:51:00
+-- Tiempo de generación: 10-03-2016 a las 05:23:10
 -- Versión del servidor: 5.6.26
 -- Versión de PHP: 5.6.12
 
@@ -37,7 +37,8 @@ CREATE TABLE IF NOT EXISTS `auth_assignment` (
 --
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
-('admin', '1', NULL);
+('admin', '1', NULL),
+('admin', '8', 1457583574);
 
 -- --------------------------------------------------------
 
@@ -262,14 +263,15 @@ CREATE TABLE IF NOT EXISTS `Usuarios` (
   `UsuarioDireccion` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Usuariocol` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `RolID` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `Usuarios`
 --
 
 INSERT INTO `Usuarios` (`UsuarioID`, `UsuarioNombre`, `UsuarioApellido`, `UsuarioEmail`, `UsuarioAlias`, `UsuarioTelefono`, `UsuarioClave`, `UsuarioDireccion`, `Usuariocol`, `RolID`) VALUES
-(1, 'Administrador', 'Administrador', 'admin@gmail.com', 'admin ', NULL, '$2y$13$I7RG8AmD5q2MC6V.H.ECkOxmOai4YBdK0mFipIHR0fH2jQosj3K6y', NULL, NULL, 1);
+(1, 'Administrador', 'Administrador', 'admin@gmail.com', 'admin ', NULL, '$2y$13$I7RG8AmD5q2MC6V.H.ECkOxmOai4YBdK0mFipIHR0fH2jQosj3K6y', NULL, NULL, 1),
+(8, 'Felipe', 'Felipe', 'felipe35modus@gmail.com', 'Felipe35modus', '', '$2y$13$8Ak6cWBH4wRrrMKeSlSqberLt1tAuInDWnheuAoHsMRt4Sp4F7sXO', 'San Cristóbal', '', 1);
 
 --
 -- Índices para tablas volcadas
@@ -425,7 +427,7 @@ ALTER TABLE `TiposProductos`
 -- AUTO_INCREMENT de la tabla `Usuarios`
 --
 ALTER TABLE `Usuarios`
-  MODIFY `UsuarioID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `UsuarioID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- Restricciones para tablas volcadas
 --

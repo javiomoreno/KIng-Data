@@ -83,7 +83,18 @@ class UsuariosController extends Controller
         $this->layout ="adminLayout";
         $model = new Usuarios();
         if ($model->load(Yii::$app->request->post())) {
-            $model->estado = 1;
+          if ($user = $model->registrarUsuarios()) {
+            $auth = \Yii::$app->authManager;
+            if ($user->RolID == 1) {
+                $role = $auth->getRole('admin');
+                $auth->assign($role, $user->getId());
+            }
+            return Yii::$app->getResponse()->redirect(array('/usuarios/index'));
+          }
+          return $this->render('create', [
+              'model' => $model,
+          ]);
+            /*$model->estado = 1;
             if ($user = $model->save()) {
                 $auth = \Yii::$app->authManager;
                 if ($model->TiposUsuarios_idTipoUsuario == 1) {
@@ -103,7 +114,7 @@ class UsuariosController extends Controller
                     $auth->assign($role, $model->getId());
                 }
                 return $this->redirect(['index']);
-            }
+            }*/
         }
 
         return $this->render('create', [
@@ -137,9 +148,13 @@ class UsuariosController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idUsuario]);
+        $claveOld = $model->UsuarioClave;
+        if ($model->load(Yii::$app->request->post())) {
+          if ($model->UsuarioClave !== $claveOld) {
+            $model->setUsuarioClave($model->UsuarioClave);
+          }
+          $model->save();
+          return $this->redirect(['view', 'id' => $model->UsuarioID]);
         } else {
             return $this->render('update', [
                 'model' => $model,

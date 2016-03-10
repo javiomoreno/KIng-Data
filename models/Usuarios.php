@@ -5,6 +5,8 @@ namespace app\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use app\models\Roles;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "Usuarios".
@@ -45,7 +47,13 @@ class Usuarios extends ActiveRecord implements IdentityInterface
             [['UsuarioAlias'], 'string', 'max' => 50],
             [['UsuarioTelefono'], 'string', 'max' => 20],
             [['UsuarioClave', 'UsuarioDireccion'], 'string', 'max' => 200],
-            [['Usuariocol'], 'string', 'max' => 45]
+            [['Usuariocol'], 'string', 'max' => 45],
+
+            ['UsuarioEmail', 'filter', 'filter' => 'trim'],
+            ['UsuarioEmail', 'email'],
+            ['UsuarioEmail', 'unique', 'targetClass' => '\app\models\Usuarios', 'message' => 'Email ya Registrado.'],
+
+            ['UsuarioClave', 'string', 'min' => 6]
         ];
     }
 
@@ -56,15 +64,15 @@ class Usuarios extends ActiveRecord implements IdentityInterface
     {
         return [
             'UsuarioID' => 'Usuario ID',
-            'UsuarioNombre' => 'Usuario Nombre',
-            'UsuarioApellido' => 'Usuario Apellido',
-            'UsuarioEmail' => 'Usuario Email',
-            'UsuarioAlias' => 'Usuario Alias',
-            'UsuarioTelefono' => 'Usuario Telefono',
-            'UsuarioClave' => 'Usuario Clave',
-            'UsuarioDireccion' => 'Usuario Direccion',
+            'UsuarioNombre' => 'Nombre',
+            'UsuarioApellido' => 'Apellido',
+            'UsuarioEmail' => 'Email',
+            'UsuarioAlias' => 'Alias',
+            'UsuarioTelefono' => 'Teléfono',
+            'UsuarioClave' => 'Contraseña',
+            'UsuarioDireccion' => 'Direccion',
             'Usuariocol' => 'Usuariocol',
-            'RolID' => 'Rol ID',
+            'RolID' => 'Cargo',
         ];
     }
 
@@ -119,6 +127,15 @@ class Usuarios extends ActiveRecord implements IdentityInterface
         return Yii::$app->getSecurity()->validatePassword($password, $this->UsuarioClave);
     }
 
+    /**
+     * Generates password hash from password and sets it to the model
+     *
+     * @param string $password
+     */
+    public function setUsuarioClave($password)
+    {
+        $this->UsuarioClave = Yii::$app->security->generatePasswordHash($password);
+    }
         /**
      * @inheritdoc
      */
@@ -139,4 +156,36 @@ class Usuarios extends ActiveRecord implements IdentityInterface
     public static function findIdentityByAccessToken($token, $type = null)
     {
     }
+
+    public static function getListaRoles()
+    {
+        $opciones = Roles::find()->asArray()->all();
+        return ArrayHelper::map($opciones, 'RolID', 'RolNombre');
+    }
+
+    /**
+     * Signs user up.
+     *
+     * @return User|null the saved model or null if saving fails
+     */
+    public function registrarUsuarios()
+    {
+        if ($this->validate()) {
+            $user = new Usuarios();
+            $user->UsuarioNombre = $this->UsuarioNombre;
+            $user->UsuarioApellido = $this->UsuarioApellido;
+            $user->UsuarioAlias = $this->UsuarioAlias;
+            $user->UsuarioEmail = $this->UsuarioEmail;
+            $user->UsuarioTelefono = $this->UsuarioTelefono;
+            $user->setUsuarioClave($this->UsuarioClave);
+            $user->UsuarioDireccion = $this->UsuarioDireccion;
+            $user->Usuariocol = $this->Usuariocol;
+            $user->RolID = $this->RolID;
+            if ($user->save()) {
+                return $user;
+            }
+        }
+        return null;
+    }
+
 }

@@ -5,12 +5,12 @@ namespace app\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\TiposUsuarios;
+use app\models\OrdenesProductos;
 
 /**
- * TiposUsuariosSearch represents the model behind the search form about `app\models\TiposUsuarios`.
+ * OrdenesProductosSearch represents the model behind the search form about `app\models\OrdenesProductos`.
  */
-class TiposUsuariosSearch extends TiposUsuarios
+class OrdenesProductosSearch extends OrdenesProductos
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class TiposUsuariosSearch extends TiposUsuarios
     public function rules()
     {
         return [
-            [['idTipoUsuario'], 'integer'],
-            [['nombre', 'descripcion'], 'safe'],
+            [['OrdenID', 'ProductoID', 'CantidadProducto'], 'integer'],
+            [['TotalPrecio'], 'number'],
         ];
     }
 
@@ -41,7 +41,7 @@ class TiposUsuariosSearch extends TiposUsuarios
      */
     public function search($params)
     {
-        $query = TiposUsuarios::find();
+        $query = OrdenesProductos::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,11 +56,11 @@ class TiposUsuariosSearch extends TiposUsuarios
         }
 
         $query->andFilterWhere([
-            'idTipoUsuario' => $this->idTipoUsuario,
+            'OrdenID' => $this->OrdenID,
+            'ProductoID' => $this->ProductoID,
+            'CantidadProducto' => $this->CantidadProducto,
+            'TotalPrecio' => $this->TotalPrecio,
         ]);
-
-        $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'descripcion', $this->descripcion]);
 
         return $dataProvider;
     }
